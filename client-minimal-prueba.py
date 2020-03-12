@@ -17,6 +17,8 @@ rootTk = tk.Tk()
 canvas = tk.Canvas(rootTk, width=400, height=400, borderwidth=0, highlightthickness=0, bg="black")
 canvas.grid()
 
+fileName = 'alerts.log'
+
 def _create_circle(self, x, y, r, **kwargs):
     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
 tk.Canvas.create_circle = _create_circle
@@ -31,8 +33,8 @@ tk.Canvas.create_circle_arc = _create_circle_arc
 def sound_alerta():
     server = Server().boot()
     server.start()
-    sine = Sine(261.63, mul=0.1).out()
-    sleep(1)
+    sine = Sine(523.3, mul=0.1).out()
+    sleep(0.5)
     server.stop()
     
 def modifico_circulo():
@@ -111,16 +113,22 @@ if __name__ == "__main__":
             if valor1.get() == 1:
                 valor1.set(0)
                 root.get_children()[0].get_children()[1].get_variables()[0].set_value('Todo ok')
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma apagada en variable 1 a las ' + time.asctime(time.localtime()) + '\n')
         def callback_but2(*args):
             global valor2
             if valor2.get() == 1:
                 valor2.set(0)
                 root.get_children()[0].get_children()[1].get_variables()[1].set_value('Todo ok')
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma apagada en variable 2 a las ' + time.asctime(time.localtime()) + '\n')
         def callback_but3(*args):
             global valor3
             if valor3.get() == 1:
                 valor3.set(0)
                 root.get_children()[0].get_children()[1].get_variables()[2].set_value('Todo ok')
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma apagada en variable 3 a las ' + time.asctime(time.localtime()) + '\n')
         but1 = tk.Button(canvas, text = 'Apagar alarma', command = callback_but1)
         but1.place(x=50,y=100)
         but2 = tk.Button(canvas, text = 'Apagar alarma', command = callback_but2)
