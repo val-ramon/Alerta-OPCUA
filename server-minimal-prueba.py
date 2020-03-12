@@ -5,7 +5,7 @@ import time
 
 from opcua import ua, Server
 import numpy as np
-
+fileName = 'alerts.log'
 
 if __name__ == "__main__":
 
@@ -40,15 +40,21 @@ if __name__ == "__main__":
             time.sleep(5)
             count += 0.1
 #            myvar.set_value(count)
-            value1 = np.random.randint(1, 20)
-            value2 = np.random.randint(1, 20)
-            value3 = np.random.randint(1, 20)
-            if value1 == 1:
+            value1 = np.random.randint(1, 4)
+            value2 = np.random.randint(1, 4)
+            value3 = np.random.randint(1, 4)
+            if value1 % 2 == 0 and myvar1.get_value() != 'Hay un problema':
                 myvar1.set_value('Hay un problema')
-            if value2 == 2:
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma activada en variable 1 a las ' + time.asctime(time.localtime()) + '\n')
+            if value2 % 2 == 0 and myvar2.get_value() != 'Hay un problema':
                 myvar2.set_value('Hay un problema')
-            if value3 == 3:
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma activada en variable 2 a las ' + time.asctime(time.localtime()) + '\n')
+            if value3 % 2 == 0 and myvar3.get_value() != 'Hay un problema':
                 myvar3.set_value('Hay un problema')
+                with open(fileName, 'a') as fileO:
+                    fileO.write('Alarma activada en variable 3 a las ' + time.asctime(time.localtime()) + '\n')
     finally:
         #close connection, remove subcsriptions, etc
         server.stop()
